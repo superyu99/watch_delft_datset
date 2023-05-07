@@ -134,3 +134,5 @@ dmypy.json
 
 .DS_Store
 /docs/.DS_Store
+
+/view_of_delft
