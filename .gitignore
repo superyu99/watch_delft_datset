@@ -136,3 +136,5 @@ dmypy.json
 /docs/.DS_Store
 
 /view_of_delft
+*.mp4
+/output_image

@@ -198,6 +198,10 @@ def k3d_plot_box(plot, box_corners, color, width):
     for plot_line in lines:
         plot += k3d.line(box_corners[plot_line, 0:3], color=color, width=width)
 
+import open3d as o3d
+import numpy as np
+
+
 
 def get_radar_velocity_vectors(pc_radar, compensated_radial_velocity):
     radial_unit_vectors = pc_radar / np.linalg.norm(pc_radar, axis=1, keepdims=True)

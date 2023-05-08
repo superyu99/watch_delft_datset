@@ -1,35 +1,49 @@
+from vod.configuration import KittiLocations
+from vod.visualization import Visualization2D
+
+kitti_locations = KittiLocations(root_dir="/DISK_F/view_of_delft_PUBLIC",
+                                output_dir="lidar_output/",
+                                frame_set_path="",
+                                pred_dir="",
+                                )
+
+print(f"Lidar directory: {kitti_locations.lidar_dir}")
+print(f"Radar directory: {kitti_locations.radar_dir}")
+
+from vod.frame import FrameDataLoader
+
+frame_data = FrameDataLoader(kitti_locations=kitti_locations,
+                             frame_number="00393")
+
+
+# 看图片
 # import matplotlib.pyplot as plt
+# import matplotlib
+# matplotlib.use('TkAgg')
 
-# with open('/workspace/mot/whatch_delft_dataset/view_of_delft/lidar/ImageSets/full.txt', 'r') as file:
-#     lines = file.readlines()
-#     frame_numbers = [int(line.strip()) for line in lines]
+# imgplot = plt.imshow(frame_data.image)
+# plt.show()
 
-# plt.plot(frame_numbers, marker='o', linestyle='-')
-# plt.xlabel('Index')
-# plt.ylabel('Frame Number')
-# plt.title('Frame Numbers')
-# plt.grid(True)
 
-# # Save the figure to a file instead of displaying it on the screen
-# plt.savefig('/workspace/mot/whatch_delft_dataset/frame_numbers_plot.png', dpi=300, bbox_inches='tight')
+# vis2d = Visualization2D(frame_data)
+# vis2d.draw_plot(#show_lidar=True,
+#                 plot_figure=False,
+#                 show_radar=True,
+#                 show_gt=True,
+#                 # min_distance_threshold=5,
+#                 # max_distance_threshold=20,
+#                 save_figure=True)
 
-import matplotlib
-matplotlib.use('TkAgg')  # Set the backend to TkAgg
-import matplotlib.pyplot as plt
+#看雷达
+# print(frame_data.lidar_data)
 
-with open('/workspace/mot/whatch_delft_dataset/view_of_delft/lidar/ImageSets/full.txt', 'r') as file:
-    lines = file.readlines()
-    frame_numbers = [int(line.strip()) for line in lines]
+# 3D Visualization of the point-cloud
+from vod.visualization import VisualizationOpen3D
+vis_3d = VisualizationOpen3D(frame_data=frame_data,origin="lidar")
 
-plt.plot(frame_numbers, marker='o', linestyle='-')
-plt.xlabel('Index')
-plt.ylabel('Frame Number')
-plt.title('Frame Numbers')
-plt.grid(True)
 
-# Draw horizontal lines at discontinuities
-for i in range(1, len(frame_numbers)):
-    if abs(frame_numbers[i] - frame_numbers[i - 1]) > 1:
-        plt.axhline(y=frame_numbers[i - 1],  color='r', linestyle='--')
-
-plt.show()
+vis_3d.draw_plot(lidar_points_plot=True,
+                radar_velocity_plot=True,
+                radar_points_plot=True,
+                write_figure=True,
+                annotations_plot=True)
